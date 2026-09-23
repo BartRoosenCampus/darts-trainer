@@ -1,4 +1,6 @@
-"use strict";const CACHE_NAME = 'v1_cache';
+"use strict";
+
+const CACHE_NAME = 'v1_cache';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
