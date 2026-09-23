@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = 'v2_cache';
+const CACHE_NAME = 'v3_cache';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
