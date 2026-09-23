@@ -25,7 +25,9 @@ export class Hattrick {
         });
 
         this.view.completeReset.addEventListener("click", () => {
-            this.reset(true);
+            if (confirm('Ben je zeker dat het alles wil resetten?')) {
+                this.reset(true);
+            }
         });
     }
 
