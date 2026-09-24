@@ -250,5 +250,4 @@ export class Hattrick {
 
         return parseFloat(amount) / (parseFloat(total) / 100);
     }
-
 }
