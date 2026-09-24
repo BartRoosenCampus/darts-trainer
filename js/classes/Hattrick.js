@@ -68,30 +68,31 @@ export class Hattrick {
         if (this.continue) {
             this.darts++;
             this.turn++;
+            console.log(this.turn);
             if (0 === x) this.hattrick = false;
             this.throws.push((0 === x) ? this.type[x] : `${this.type[x]} ${this.toThrow}`);
             this.deduct(x);
             this.manipulateStats(this.type[x]);
 
-            if (3 === this.turn) {
-                if (this.hattrick) {
-                    this.deduct(1);
-                    this.throws.push("hattrick")
-                    this.manipulateStats("hattrick");
+            if (this.throws.length >= 3) {
+                const last3Items = this.throws.slice(-3);
+
+                if (this.turn === 3) {
+                    if (!last3Items.includes("hattrick") && !last3Items.includes("mis")) {
+                        this.deduct(1);
+                        this.throws.push("hattrick")
+                        this.manipulateStats("hattrick");
+                    }
+
+                    this.nextTurn();
                 }
-                this.nextTurn();
             }
-        }
-
-        if (!this.continue) {
-
         }
 
         this.drawView();
     }
 
     drawView() {
-        console.log(this.turn);
         this.view.to_throw.innerText = (0 === this.toThrow) ? "B" : this.toThrow;
 
         this.view.buttons_area.innerHTML = "";
@@ -251,5 +252,3 @@ export class Hattrick {
     }
 
 }
-
-// todo: go back options
