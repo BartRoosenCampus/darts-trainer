@@ -6,7 +6,7 @@ export class Hattrick {
     darts = 0;
     turn = 0;
     throws = [];
-    type = ["Mis", "Single", "Double", "Triple"];
+    type = ["mis", "single", "double", "triple"];
     continue = true;
     view = {
         to_throw: document.getElementById("to_throw"),
@@ -17,6 +17,7 @@ export class Hattrick {
         resetBtn: document.getElementById("resetBtn"),
         completeReset: document.getElementById("completeReset"),
     };
+    chart = null;
 
     constructor() {
         this.drawView();
@@ -38,11 +39,13 @@ export class Hattrick {
             if (0 === x) this.hattrick = false;
             this.throws.push((0 === x) ? this.type[x] : `${this.type[x]} ${this.toThrow}`);
             this.deduct(x);
+            this.addToStats(this.type[x]);
 
             if (3 === this.turn) {
                 if (this.hattrick) {
                     this.deduct(1);
                     this.throws.push("Hattrick")
+                    this.addToStats("hattrick");
                 }
                 this.nextTurn();
             }
@@ -56,7 +59,7 @@ export class Hattrick {
     }
 
     drawView() {
-        this.view.to_throw.innerText = `${this.toThrow}`;
+        this.view.to_throw.innerText = (0 === this.toThrow) ? "B" : this.toThrow;
 
         this.view.buttons_area.innerHTML = "";
         if (this.continue) {
@@ -66,6 +69,7 @@ export class Hattrick {
                     this.hit(this.type.indexOf(type));
                 });
                 newBtn.innerText = type;
+                newBtn.classList.add(`btn_${type}`);
                 if (this.toThrow === 0) {
                     if (this.type.indexOf(type) < 3) this.view.buttons_area.appendChild(newBtn);
                 } else {
@@ -84,6 +88,8 @@ export class Hattrick {
             line.innerText = worp;
             this.view.history.prepend(line);
         }
+
+        this.drawPieChart();
     }
 
     deduct(x) {
@@ -107,12 +113,11 @@ export class Hattrick {
 
         const result = this.darts - oldRecord;
 
-        if(0 === result) this.throws.push("Evenaring van het record");
-        else if(0 === oldRecord || 0 > result) {
+        if (0 === result) this.throws.push("Evenaring van het record");
+        else if (0 === oldRecord || 0 > result) {
             this.throws.push("Nieuw record !!!");
             localStorage.setItem('hattrick', this.darts.toString());
-        }
-        else if(0 < result) this.throws.push("Geen nieuw record");
+        } else if (0 < result) this.throws.push("Geen nieuw record");
     }
 
     nextTurn() {
@@ -130,4 +135,88 @@ export class Hattrick {
         if (completeReset) localStorage.clear();
         this.drawView();
     }
+
+    getStats() {
+        if (null === localStorage.getItem("hattrickStats")) {
+            const stats = {
+                mis: 0,
+                single: 0,
+                double: 0,
+                triple: 0,
+                hattrick: 0,
+            };
+
+            localStorage.setItem("hattrickStats", JSON.stringify(stats));
+        }
+
+        return JSON.parse(localStorage.getItem("hattrickStats"));
+    }
+
+    addToStats(type) {
+        const stats = this.getStats();
+        const types = ["single", "double", "triple", "mis", "hattrick"];
+
+        if (!types.includes(type)) {
+            console.log("Hell yeah, this does not exist");
+            return false;
+        }
+
+        stats[type]++;
+
+        localStorage.setItem("hattrickStats", JSON.stringify(stats));
+    }
+
+    drawPieChart() {
+        const piePieces = this.calculatePieChartData();
+
+        if (this.chart) {
+            this.chart.data.datasets[0].data = piePieces;
+            this.chart.update();
+            return;
+        }
+
+        const data = {
+            datasets: [{
+                data: piePieces,
+                backgroundColor: [
+                    '#ef4444', '#eab308', '#f97316', '#39ff14'
+                ],
+                borderWidth: 0
+            }]
+        };
+
+        const config = {
+            type: 'pie',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        };
+
+        this.chart = new Chart(document.getElementById('myPieChart'), config);
+    }
+
+    calculatePieChartData() {
+        const stats = this.getStats();
+        const total = Object.values(stats).reduce((sum, count) => sum + count, 0);
+        const data = [];
+
+        data.push(this.calculatePercentage(parseFloat(total), parseFloat(stats.mis)));
+        data.push(this.calculatePercentage(parseFloat(total), parseFloat(stats.single)));
+        data.push(this.calculatePercentage(parseFloat(total), parseFloat(stats.double)));
+        data.push(this.calculatePercentage(parseFloat(total), parseFloat(stats.triple)));
+
+        return data;
+    }
+
+    calculatePercentage(total, amount) {
+        if (0 === total || 0 === amount) return 0;
+
+        return parseFloat(amount) / (parseFloat(total) / 100);
+    }
+
 }
+
+// todo: go back options
+// todo: stats view

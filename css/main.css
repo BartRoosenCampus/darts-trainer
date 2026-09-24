@@ -8,14 +8,26 @@
     --emerald-glow: #10b981;
     --amber-glow: #f59e0b;
 
+    /* Action Button Themes */
+    --mis-bg: linear-gradient(180deg, #7f1d1d 0%, #3b0707 100%);
+    --mis-border: #ef4444;
+
+    /* Yellow for Single */
+    --single-bg: linear-gradient(180deg, #854d0e 0%, #3f2203 100%);
+    --single-border: #eab308;
+
+    /* Orange for Double */
+    --double-bg: linear-gradient(180deg, #9a3412 0%, #431407 100%);
+    --double-border: #f97316;
+
+    /* Green for Triple */
+    --triple-bg: linear-gradient(180deg, #15803d 0%, #052e16 100%);
+    --triple-border: #22c55e;
+    --triple-glow: #39ff14;
+
     /* Reset & Danger Colors */
     --red-warning: #991b1b;
     --red-warning-border: #ef4444;
-
-    /* Ultimate Danger Colors for Complete Reset */
-    --red-extreme: #dc2626;
-    --red-extreme-border: #ff2222;
-    --red-extreme-glow: #ff003c;
 
     --text-main: #ffffff;
     --text-sub: #64748b;
@@ -128,9 +140,7 @@ body {
 }
 
 #buttons_area button {
-    background: linear-gradient(180deg, #1e2838 0%, #0d121c 100%);
     color: var(--text-main);
-    border: 1px solid var(--border-color);
     border-radius: var(--radius-card);
     padding: 1.25rem 1rem;
     font-size: 1.25rem;
@@ -138,15 +148,156 @@ body {
     cursor: pointer;
     min-height: 68px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-    transition: transform 0.05s ease, border-color 0.15s ease, background 0.15s ease;
+    transition: transform 0.05s ease, border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
 }
 
 #buttons_area button:active {
     transform: scale(0.96);
-    border-color: var(--cyan-glow);
-    background: var(--cyan-glow);
-    color: #000;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+}
+
+/* 1. MISS BUTTON (RED) */
+.btn_mis {
+    background: var(--mis-bg);
+    border: 1px solid var(--mis-border);
+}
+
+.btn_mis:active {
+    border-color: #ff003c;
+    background: var(--mis-border);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.8);
+}
+
+/* 2. SINGLE BUTTON (YELLOW) */
+.btn_single {
+    background: var(--single-bg);
+    border: 1px solid var(--single-border);
+    color: #fffbeb;
+    text-shadow: 0 0 8px rgba(234, 179, 8, 0.6);
+}
+
+.btn_single:active {
+    border-color: #facc15;
+    background: var(--single-border);
+    color: #000000;
+    box-shadow: 0 0 18px rgba(234, 179, 8, 0.9);
+}
+
+/* 3. DOUBLE BUTTON (ORANGE) */
+.btn_double {
+    background: var(--double-bg);
+    border: 1px solid var(--double-border);
+}
+
+.btn_double:active {
+    border-color: #ff7700;
+    background: var(--double-border);
+    box-shadow: 0 0 15px rgba(249, 115, 22, 0.8);
+}
+
+/* 4. TRIPLE BUTTON (GREEN) */
+.btn_triple {
+    background: var(--triple-bg);
+    border: 1px solid var(--triple-border);
+}
+
+.btn_triple:active {
+    border-color: var(--triple-glow);
+    background: var(--triple-border);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.9);
+}
+
+/* ==========================================
+   STATISTICS AREA (HISTORY + PIE CHART)
+   ========================================== */
+#statistics {
+    display: flex;
+    flex-direction: row;
+    gap: 0.85rem;
+    width: 100%;
+    align-items: stretch;
+}
+
+/* HISTORY LOG */
+#history {
+    flex: 1;
+    background-color: var(--card-bg);
+    border-radius: var(--radius-card);
+    padding: 0.75rem;
+    height: 160px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 1px solid var(--border-color);
+
+    /* Firefox custom scrollbar styling */
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+/* WebKit (Chrome, Safari, Edge) Scrollbar Customization */
+
+/* 1. Blended Dark Scrollbar Style (Active) */
+#history::-webkit-scrollbar {
+    width: 6px;
+}
+
+#history::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#history::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 4px;
+}
+
+#history::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-sub);
+}
+
+/*
+   2. Completely Invisible Scrollbar Style
+   (Uncomment this section and comment out section 1 above if you prefer it totally hidden)
+
+#history {
+    scrollbar-width: none; // Firefox
+}
+#history::-webkit-scrollbar {
+    display: none; // Chrome, Safari, Edge
+}
+*/
+
+#history div {
+    padding: 0.5rem 0.6rem;
+    background-color: #0a0d14;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-sub);
+}
+
+#history div:first-child {
+    color: var(--cyan-glow);
+    border-left: 3px solid var(--cyan-glow);
+}
+
+/* PIE CHART CONTAINER */
+#pie_chart {
+    flex: 1;
+    background-color: var(--card-bg);
+    border-radius: var(--radius-card);
+    padding: 0.75rem;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+
+#pie_chart canvas {
+    max-width: 100% !important;
+    max-height: 100% !important;
 }
 
 /* ==========================================
@@ -180,33 +331,4 @@ body {
     background: var(--red-warning-border);
     color: #ffffff;
     box-shadow: 0 0 15px rgba(239, 68, 68, 0.7);
-}
-
-/* ==========================================
-   HISTORY LOG
-   ========================================== */
-#history {
-    background-color: var(--card-bg);
-    border-radius: var(--radius-card);
-    padding: 1rem;
-    max-height: 160px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    border: 1px solid var(--border-color);
-}
-
-#history div {
-    padding: 0.6rem 0.8rem;
-    background-color: #0a0d14;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-sub);
-}
-
-#history div:first-child {
-    color: var(--cyan-glow);
-    border-left: 3px solid var(--cyan-glow);
 }

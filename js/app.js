@@ -11,20 +11,3 @@ if ('serviceWorker' in navigator) {
 }
 
 const hattrick = new Hattrick();
-
-// hattrick.hit(1);
-// hattrick.hit(2);
-// hattrick.hit(3);
-// hattrick.hit(0);
-// hattrick.hit(3);
-// hattrick.hit(1);
-// hattrick.hit(1);
-// hattrick.hit(1);
-// hattrick.hit(1);
-// hattrick.hit(0);
-// hattrick.hit(0);
-// hattrick.hit(3);
-// hattrick.hit(3);
-// hattrick.hit(2);
-// hattrick.hit(2);
-console.log(hattrick);

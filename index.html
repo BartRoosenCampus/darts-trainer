@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/main.css">
     <script type="module" src="js/app.js" defer></script>
     <link rel="manifest" href="manifest.json">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <div id="dashboard">
@@ -15,10 +16,36 @@
     <div id="to_beat"></div>
 </div>
 <div id="buttons_area"></div>
-<div id="history"></div>
+<div id="statistics">
+    <div id="history"></div>
+    <div id="pie_chart">
+        <canvas id="myPieChart"></canvas>
+    </div>
+</div>
+
 <div id="reset">
     <button id="resetBtn">New Game</button>
     <button id="completeReset">Reset</button>
 </div>
+<script>
+    // const data = {
+    //     // labels: ['Chrome', 'Firefox', 'Safari', 'Edge'],
+    //     datasets: [{
+    //         // label: 'Browser Market Share',
+    //         data: [25, 25, 25, 25], // The values
+    //         backgroundColor: [
+    //             '#ef4444', '#16a34a', '#22c55e', '#4ade80' // Colors
+    //         ],
+    //         borderWidth: 0
+    //     }]
+    // };
+    //
+    // const config = {
+    //     type: 'pie',
+    //     data: data,
+    // };
+    //
+    // new Chart(document.getElementById('myPieChart'), config);
+</script>
 </body>
 </html>
