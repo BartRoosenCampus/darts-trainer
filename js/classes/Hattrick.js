@@ -152,6 +152,8 @@ export class Hattrick {
             this.throws.push("Nieuw record !!!");
             localStorage.setItem('hattrick', this.darts.toString());
         } else if (0 < result) this.throws.push("Geen nieuw record");
+
+        this.view.stepBackBtn.disabled = true;
     }
 
     nextTurn() {
