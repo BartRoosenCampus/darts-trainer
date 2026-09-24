@@ -16,6 +16,7 @@ export class Hattrick {
         history: document.getElementById("history"),
         resetBtn: document.getElementById("resetBtn"),
         completeReset: document.getElementById("completeReset"),
+        stepBackBtn: document.getElementById("stepBackBtn"),
     };
     chart = null;
 
@@ -30,6 +31,37 @@ export class Hattrick {
                 this.reset(true);
             }
         });
+
+        this.view.stepBackBtn.addEventListener("click", () => {
+            this.takeAStepBack();
+        });
+    }
+
+    takeAStepBack() {
+        const lastThrow = this.throws.pop();
+
+        if ("hattrick" === lastThrow) {
+            this.manipulateStats("hattrick", true);
+            this.toThrow++;
+            this.takeAStepBack();
+            return;
+        }
+        if ("mis" === lastThrow) {
+            this.manipulateStats("mis", true);
+        }
+
+        if ("mis" !== lastThrow && "hattrick" !== lastThrow) {
+            const array = lastThrow.split(" ");
+            this.toThrow += this.type.indexOf(array[0]);
+            this.manipulateStats(array[0], true);
+        }
+
+        this.darts -= 1;
+
+        if (0 === this.turn) this.turn = 2;
+        else this.turn -= 1;
+
+        this.drawView();
     }
 
     hit(x) {
@@ -39,13 +71,13 @@ export class Hattrick {
             if (0 === x) this.hattrick = false;
             this.throws.push((0 === x) ? this.type[x] : `${this.type[x]} ${this.toThrow}`);
             this.deduct(x);
-            this.addToStats(this.type[x]);
+            this.manipulateStats(this.type[x]);
 
             if (3 === this.turn) {
                 if (this.hattrick) {
                     this.deduct(1);
-                    this.throws.push("Hattrick")
-                    this.addToStats("hattrick");
+                    this.throws.push("hattrick")
+                    this.manipulateStats("hattrick");
                 }
                 this.nextTurn();
             }
@@ -59,6 +91,7 @@ export class Hattrick {
     }
 
     drawView() {
+        console.log(this.turn);
         this.view.to_throw.innerText = (0 === this.toThrow) ? "B" : this.toThrow;
 
         this.view.buttons_area.innerHTML = "";
@@ -152,7 +185,7 @@ export class Hattrick {
         return JSON.parse(localStorage.getItem("hattrickStats"));
     }
 
-    addToStats(type) {
+    manipulateStats(type, remove = false) {
         const stats = this.getStats();
         const types = ["single", "double", "triple", "mis", "hattrick"];
 
@@ -161,7 +194,8 @@ export class Hattrick {
             return false;
         }
 
-        stats[type]++;
+        if (remove) stats[type]--;
+        else stats[type]++;
 
         localStorage.setItem("hattrickStats", JSON.stringify(stats));
     }
@@ -219,4 +253,3 @@ export class Hattrick {
 }
 
 // todo: go back options
-// todo: stats view

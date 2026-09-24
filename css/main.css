@@ -255,18 +255,6 @@ body {
     background-color: var(--text-sub);
 }
 
-/*
-   2. Completely Invisible Scrollbar Style
-   (Uncomment this section and comment out section 1 above if you prefer it totally hidden)
-
-#history {
-    scrollbar-width: none; // Firefox
-}
-#history::-webkit-scrollbar {
-    display: none; // Chrome, Safari, Edge
-}
-*/
-
 #history div {
     padding: 0.5rem 0.6rem;
     background-color: #0a0d14;
@@ -307,18 +295,18 @@ body {
     margin-top: 1rem;
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.85rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
 }
 
-/* Standard Reset Button */
-#resetBtn, #completeReset {
+/* Unified Reset & Action Control Buttons */
+#stepBackBtn, #resetBtn, #completeReset {
     background: linear-gradient(180deg, #7f1d1d 0%, #450a0a 100%);
     color: var(--text-main);
     border: 1px solid var(--red-warning-border);
     border-radius: var(--radius-card);
-    padding: 1.25rem 1rem;
-    font-size: 1.1rem;
+    padding: 1rem 0.5rem;
+    font-size: 0.95rem;
     font-weight: 700;
     cursor: pointer;
     min-height: 68px;
@@ -326,7 +314,7 @@ body {
     transition: transform 0.05s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
-#resetBtn:active, #completeReset:active {
+#stepBackBtn:active, #resetBtn:active, #completeReset:active {
     transform: scale(0.96);
     background: var(--red-warning-border);
     color: #ffffff;
