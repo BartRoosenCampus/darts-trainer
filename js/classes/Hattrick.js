@@ -170,6 +170,7 @@ export class Hattrick {
         this.continue = true;
         if (completeReset) localStorage.clear();
         this.drawView();
+        this.view.stepBackBtn.disabled = false;
     }
 
     getStats() {
